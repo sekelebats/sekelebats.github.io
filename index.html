@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== SEO SEMANTIK ===== -->
+  <title>SEKELabs — Visualisasi, Design, Website & Review</title>
+  <meta name="description" content="SEKELabs menyediakan layanan Visualisasi, Design, Website, dan Review untuk kebutuhan digital Anda.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="SEKELabs">
+  <link rel="canonical" href="https://sekelabs.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SEKELabs">
+  <meta property="og:title" content="SEKELabs — Visualisasi, Design, Website & Review">
+  <meta property="og:description" content="Layanan Visualisasi, Design, Website, dan Review.">
+  <meta property="og:url" content="https://sekelabs.com/">
+  <meta property="og:locale" content="id_ID">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SEKELabs — Visualisasi, Design, Website & Review">
+  <meta name="twitter:description" content="Layanan Visualisasi, Design, Website, dan Review.">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://sekelabs.com/#organization",
+        "name": "SEKELabs",
+        "url": "https://sekelabs.com/",
+        "email": "example@gmail.com",
+        "sameAs": [
+          "https://instagram.com/sekelabs",
+          "https://yourstore.com"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://sekelabs.com/#website",
+        "url": "https://sekelabs.com/",
+        "name": "SEKELabs",
+        "inLanguage": "id-ID",
+        "publisher": { "@id": "https://sekelabs.com/#organization" }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --background: #ffffff;
+      --foreground: #000000;
+      --border: #e5e5e5;
+    }
+    .dark {
+      --background: #000000;
+      --foreground: #ffffff;
+      --border: #333333;
+    }
+
+    /* ===== LOCK SCROLL ===== */
+    html, body {
+      height: 100%;
+      overflow: hidden;          /* ← tidak bisa scroll */
+      overscroll-behavior: none; /* cegah bounce/pull-to-refresh */
+    }
+
+    h1 { margin: 0; font-size: inherit; font-weight: inherit; }
+
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--background);
+      color: var(--foreground);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      /* Pakai dvh agar aman di mobile (address bar) */
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    /* Toggle button */
+    .toggle-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--foreground);
+      padding: 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+      z-index: 10;
+    }
+    .toggle-btn:hover { background-color: var(--border); }
+    .toggle-btn:focus-visible {
+      outline: 2px solid var(--foreground);
+      outline-offset: 2px;
+    }
+
+    .center-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden; /* jaga-jaga */
+    }
+
+    .typing-wrapper {
+      display: inline-flex;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: 300;
+      text-align: center;
+    }
+
+    .typing-text {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 2rem;
+      background-color: var(--foreground);
+      margin-left: 2px;
+      animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 0; }
+      25%, 75% { opacity: 1; }
+    }
+
+    footer {
+      padding: 12px 0;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--foreground);
+      text-align: center;
+      width: 100%;
+      flex-shrink: 0; /* footer tidak mengecil */
+    }
+    footer a {
+      color: var(--foreground);
+      text-decoration: none;
+      margin: 0 10px;
+      transition: opacity 0.3s;
+    }
+    footer a:hover { text-decoration: underline; opacity: 0.8; }
+  </style>
+</head>
+<body>
+
+<button class="toggle-btn" id="toggleIcon" aria-label="Aktifkan mode gelap" aria-pressed="false">
+  <!-- Sun (stroke 1.5) -->
+  <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2"/><path d="M12 20v2"/>
+    <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+    <path d="M2 12h2"/><path d="M20 12h2"/>
+    <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+  </svg>
+  <!-- Moon (stroke 1.5) -->
+  <svg id="iconMoon" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+  </svg>
+</button>
+
+<div class="center-wrapper">
+  <h1 class="typing-wrapper">
+    <span class="typing-text" id="text"></span>
+    <span class="cursor" aria-hidden="true"></span>
+  </h1>
+</div>
+
+<footer>
+  <a href="mailto:example@gmail.com">Email</a> |
+  <a href="https://yourstore.com" target="_blank" rel="noopener noreferrer">Store</a> |
+  <a href="https://instagram.com/sekelabs" target="_blank" rel="noopener noreferrer">Instagram</a>
+</footer>
+
+<script>
+  (function () {
+    "use strict";
+
+    const sections  = ["Visualisasi", "Design", "Website", "Review", "SEKELabs"];
+    const textEl    = document.getElementById("text");
+    const toggleBtn = document.getElementById("toggleIcon");
+    const iconSun   = document.getElementById("iconSun");
+    const iconMoon  = document.getElementById("iconMoon");
+
+    const TYPE_SPEED = 150;
+    const HOLD_DELAY = 1000;
+
+    let sectionIndex = 0;
+    let charIndex    = 0;
+    let timerId      = null;
+
+    function type() {
+      const current = sections[sectionIndex];
+      textEl.textContent = current.slice(0, charIndex + 1);
+      charIndex++;
+
+      if (charIndex < current.length) {
+        timerId = setTimeout(type, TYPE_SPEED);
+      } else {
+        timerId = setTimeout(() => {
+          sectionIndex = (sectionIndex + 1) % sections.length;
+          charIndex = 0;
+          textEl.textContent = "";
+          type();
+        }, HOLD_DELAY);
+      }
+    }
+    type();
+
+    function applyTheme(isDark, { focus = false } = {}) {
+      document.body.classList.toggle("dark", isDark);
+      iconSun.style.display  = isDark ? "none" : "block";
+      iconMoon.style.display = isDark ? "block" : "none";
+      toggleBtn.setAttribute("aria-pressed", String(isDark));
+      toggleBtn.setAttribute("aria-label", isDark ? "Aktifkan mode terang" : "Aktifkan mode gelap");
+      if (focus) toggleBtn.focus();
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      applyTheme(!document.body.classList.contains("dark"));
+    });
+
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    applyTheme(prefersDark.matches);
+    prefersDark.addEventListener?.("change", (e) => applyTheme(e.matches));
+
+    window.addEventListener("pagehide", () => {
+      if (timerId) clearTimeout(timerId);
+    });
+  })();
+</script>
+
+</body>
+</html>
